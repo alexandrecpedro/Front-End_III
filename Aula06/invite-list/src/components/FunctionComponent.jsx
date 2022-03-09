@@ -1,7 +1,6 @@
 import React from 'react';
 
-const functionComponent = (props) => {
-    const { nome, tarefa } = props;
+const functionComponent = ({ nome, tarefa }) => {
     return (
         <li>{nome} trará {tarefa}</li>
     );
