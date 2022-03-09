@@ -1,4 +1,3 @@
-import '../styles/App.css';
 import ClassComponent from '../components/ClassComponent';
 import FunctionComponent from '../components/FunctionComponent';
 import { people } from '../data'
