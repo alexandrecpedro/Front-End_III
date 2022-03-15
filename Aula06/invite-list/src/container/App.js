@@ -7,7 +7,7 @@ export default function App() {
     <div className="App">
       <h3>Convidados:</h3>
       {
-        people.map((person) => (
+        people.map(({person}) => (
           <ClassComponent key={person.id.toString()} nome={person.nome} estaNaLista={person.estaNaLista} />
         ))
       }
