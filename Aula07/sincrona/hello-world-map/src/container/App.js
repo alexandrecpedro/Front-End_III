@@ -6,7 +6,9 @@ export default function App() {
     <div>
       {
         data.map((word) => (
-          <h1 key={word.id.toString()}>{word.string}</h1>
+          <h1 key={word.id.toString()}>
+            {word.string}
+          </h1>
         ))
       }
     </div>
