@@ -1,8 +1,7 @@
 // Render Prop
-import './App.css';
 import { Formik } from "formik";
 // import { ReactJsAlert } from "reactjs-alert";
-import swal from "sweetalert";
+import swal from "@sweetalert/with-react";
 
 
 function App() {
@@ -11,7 +10,18 @@ function App() {
       //valores iniciais do form
       initialValues={{ name: "", phone: "", email: "" }}
       //função de submissao do formulario
-      onSubmit={(values) => swal(`Name: ${values.name} \nPhone: ${values.phone} \nEmail: ${values.email}`)}
+      onSubmit={(values) => 
+        swal({
+          title: "Successful data send!",
+          content: <div>
+              <p>Nome: {values.nome}</p>
+              <p>Telefone: {values.telefone}</p>
+              <p>Email: {values.email}</p>
+            </div>,
+          icon: "success",
+          button: "Remake"
+        })
+      }
       //validar campos
       validate={(values) => {
         const errors = {};
@@ -41,13 +51,28 @@ function App() {
     >
       {({ handleSubmit, handleChange, errors }) => (
         <form onSubmit={handleSubmit}>
-          <input name="name" placeholder="Name" onChange={handleChange} />
+          <label>Name</label>
+          <input 
+            name="name" 
+            placeholder="Enter your name" 
+            onChange={handleChange} 
+          />
           {errors.name && <span>{errors.name}</span>}
-          <input name="phone" placeholder="(DD) XXXXX-XXXX" onChange={handleChange} />
+          <br />
+          <label>Phone</label>
+          <input 
+            name="phone" 
+            placeholder="(DD) XXXXX-XXXX" 
+            onChange={handleChange} 
+          />
           {errors.phone && <span>{errors.phone}</span>}
-          <input name="email" placeholder="Email" onChange={handleChange} />
+          <input 
+            name="email" 
+            placeholder="Enter your email" 
+            onChange={handleChange} 
+          />
           {errors.email && <span>{errors.email}</span>}
-
+          <br />
           <button type="submit">Sumit</button>
         </form>
       )}
