@@ -1,7 +1,7 @@
 import './App.css';
 
 import { useEffect, useState } from 'react';
-import { FiEdit, FiTrash } from 'react-icons/fi';
+import { FiCheck, FiEdit, FiTrash } from 'react-icons/fi';
 
 // import data from './data';
 
@@ -12,6 +12,7 @@ function App() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
+  const [id, setId] = useState('');
 
   useEffect(() => {
     getToDos();
@@ -30,10 +31,10 @@ function App() {
       alert(`There was an error connecting to the server`);
     }
     setLoading(false);
-  }
+  };
 
   // POST
-  async function handleSubmit(event) {
+  async function newToDo(event) {
     event.preventDefault();
 
     if(!title || !description || !date) {
@@ -53,12 +54,35 @@ function App() {
           body: JSON.stringify(body)
         });
         alert('Successfully registered!');
+        clearStates();
         getToDos();
       } catch (error) {
         alert('Error when registering To Do');
       }
     };
-  }
+  };
+
+  // PUT
+  async function editToDo(event) {
+    event.preventDefault();
+    try {
+      const body = {
+        title,
+        description,
+        date
+      };
+
+      await fetch(`http://localhost:3000/api/toDo/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify(body)
+      });
+      alert('Successfully updated!');
+      clearStates();
+      getToDos();
+    } catch (error) {
+      alert('Error when updating To Do');
+    }
+  };
 
   // DELETE
   async function deleteToDo(id) {
@@ -71,11 +95,45 @@ function App() {
     } catch (error) {
       alert('Error when deleting To Do');
     }; 
+  };
+
+  function fillStates(toDo) {
+    setTitle(toDo.title);
+    setDescription(toDo.description);
+    setDate(toDo.date.split('T')[0]);
+    setId(toDo.id);
+  };
+
+  // Clear states
+  function clearStates() {
+    setId('');
+    setTitle('');
+    setDescription('');
+    setDate('');
   }
+
+  // Check To Do
+  async function checkToDo(id, status) {
+    const body = {
+      status: !status
+    }
+
+    try {
+      await fetch(`http://localhost:3000/api/toDo/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify(body)
+      });
+      getToDos();
+      alert('Successfully changed To Do status');
+      getToDos();
+    } catch (error) {
+      alert('Error when changing To Do status');
+    }; 
+  };
 
   return (
     <div className="app">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={id ? editToDo : newToDo}>
         <h1>To Do List - 2.0</h1>
         <div className="inputs">
           <label>
@@ -107,21 +165,33 @@ function App() {
           </div>
         </div>
         <div className="container-buttons">
-          <button type="submit">Save</button>
-          <button>Clear</button>
+          <button type="submit">{!id ? "Save" : "Edit" }</button>
+          <button type="button" onClick={clearStates}>Clear</button>
         </div>
       </form>
       <ul>
         { !loading && toDos.map((toDo) => (
-          <li>
+          <li
+            style={toDo.status ? { background: "blue" } : { background: "red" }}
+          >
             <div>
               <h2>{toDo.title}</h2>
               <p>{toDo.description}</p>
               <p>{toDo.date}</p>
+              <p>{toDo.status.toString()}</p>
             </div>
             <div className="container-buttons">
-              <FiEdit size={20} color="#444" />
-              <FiTrash size={20} color="#444" onClick={() => deleteToDo(toDo.id)} />
+              <FiEdit size={20} color="#444" onClick={() => fillStates(toDo)} />
+              <FiTrash 
+                size={20} 
+                color="#444" 
+                onClick={() => deleteToDo(toDo.id)} 
+              />
+              <FiCheck 
+                size={20} 
+                color="#444" 
+                onClick={() => checkToDo(toDo.id, toDo.status)}
+              />
             </div>
           </li>
         ))}
