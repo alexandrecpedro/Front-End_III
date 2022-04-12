@@ -19,7 +19,7 @@ const projects = [
         title: 'Portfolio',
         alt: 'Projects portfolio',
         img: project2,
-        github: '',
+        github: 'https://github.com/alexandrecpedro/Front-End_III/tree/Front-End-III/Checkpoint_I/portfolio',
         website: ''
     },
     {
