@@ -15,7 +15,10 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)"
-  }
+  },
+  overlay: {
+    background: "rgba(0,0,0,0.6)",
+  },
 }
 
 function App() {
@@ -27,7 +30,6 @@ function App() {
     try {
       const { data } = await api.get('/account');
       setAccounts(data.accounts);
-      console.log(data.accounts);
     } catch (error) {
       alert('Error when find accounts');
     }
@@ -39,7 +41,6 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
   }
 
   return (
