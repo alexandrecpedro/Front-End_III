@@ -20,7 +20,7 @@ const projects = [
         alt: 'Projects portfolio',
         img: project2,
         github: 'https://github.com/alexandrecpedro/Front-End_III/tree/Front-End-III/Checkpoint_I/portfolio',
-        website: 'https://portfolio-coral-eight.vercel.app/'
+        website: 'https://portfolio-coral-eight.vercel.app'
     },
     {
         id: 3,
