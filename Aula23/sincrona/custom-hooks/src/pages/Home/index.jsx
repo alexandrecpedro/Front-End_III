@@ -35,7 +35,7 @@ export const Home = () => {
           <Formik initialValues={{ userName: '' }} onSubmit={handleSubmit}>
             <Form>
               <Field placeholder="Enter a username" required type="text" name="userName" id="userName" className="form-control" />
-              <Button type="submit" variant="primary" className="my-3">Pesquisar</Button>
+              <Button type="submit" variant="primary" className="my-3">Search</Button>
             </Form>
           </Formik>
         </Col>
