@@ -3,15 +3,10 @@ import { createContext, useState } from "react";
 export const CartContext = createContext();
 
 export default function CartProvider({ children }) {
-  const [theme, setTheme] = useState("light");
   const [productsCart, setProductsCart] = useState([
     { id: 1, qtd: 5 },
     { id: 2, qtd: 2 },
   ]);
-
-  const handleTheme = () => {
-    theme === "dark" ? setTheme("light") : setTheme("dark");
-  };
 
   const addProductToCart = (id) => {
     const copyProductsCart = [...productsCart];
@@ -26,18 +21,32 @@ export default function CartProvider({ children }) {
     setProductsCart(copyProductsCart);
   };
 
-  // const removeProductFromCart = (id) => {
-  //   const copyProductsCart = [...productsCart];
-  // }
+  const removeProductFromCart = (id) => {
+    const copyProductsCart = [...productsCart];
+    const item = copyProductsCart.filter((product) => product.id === id);
+
+    if (item.length > 0) {
+      if (item[0].qtd > 1) {
+        item[0].qtd--;
+        setProductsCart(copyProductsCart);
+      } else {
+        const arrayFiltered = copyProductsCart.filter(
+          (product) => product.id !== id
+        );
+        setProductsCart(arrayFiltered);
+      }
+    } else {
+      alert("Esse produto não existe no carrinho");
+    }
+  };
 
   return (
     <CartContext.Provider
       value={{
-        theme: theme,
         username: "Alexandre",
-        handleTheme,
         productsCart,
         addProductToCart,
+        removeProductFromCart,
       }}
     >
       {children}
